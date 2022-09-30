@@ -1,8 +1,22 @@
 main = putStrLn myHtml
 
+newtype Html = Html String
+
+newtype Structure = Structure String
+
+getStructureString :: Structure -> String
+getStructureString struct =
+  case struct of
+    Structure str -> str
+
+append_ :: Structure -> Structure -> Structure
+append_ (Structure x) (Structure y) =
+  Structure (x <> y)
+
+
 myHtml = makeHtml
   "Hello World Title"
-  (h1_ "Hello, World" <> p_ "Let's learn some Haskell!")
+  (getStructureString (append_ (h1_ "Hello, World") (p_ "Let's learn some Haskell!")))
 
 wrapHtml :: String -> String
 wrapHtml content = html_ (body_ content)
@@ -19,11 +33,11 @@ head_ = el "head"
 title_ :: String -> String
 title_ = el "title"
 
-p_ :: String -> String
-p_ = el "p"
+p_ :: String -> Structure
+p_ = Structure . el "p"
 
-h1_ :: String -> String
-h1_ = el "h1"
+h1_ :: String -> Structure
+h1_ = Structure . el "h1"
 
 
 makeHtml :: String -> String -> String
