@@ -1,14 +1,6 @@
-module Html
-  ( Html
-  , Title
-  , Structure
-  , html_
-  , p_
-  , h1_
-  , append_
-  , render
-  )
-  where
+-- Html/Internal.hs
+
+module Html.Internal where
 
 
 type Title = String
