@@ -35,11 +35,18 @@ html_ title body =
       ( el "head" ( el "title" (escape title))
         <> el "body" (getStructureString body)))
 
+
+tag_escaped :: String -> String -> Structure
+tag_escaped tag = Structure . el tag . escape
+
 p_ :: String -> Structure
-p_ = Structure . el "p" . escape
+p_ = tag_escaped "p"
 
 h1_ :: String -> Structure
-h1_ = Structure . el "h1" . escape
+h1_ = tag_escaped "h1"
+
+code_ :: String -> Structure
+code_ = tag_escaped "pre"
 
 escape :: String -> String
 escape =
@@ -54,3 +61,19 @@ escape =
         _    -> [c]
   in
     concat . map escapeChar
+
+
+lister :: String -> String -> [Structure] -> Structure
+lister listtype element = Structure . el listtype . concat . map (el element . getStructureString)
+
+
+ul :: [Structure] -> Structure
+ul = lister "ul" "li"
+
+
+ol :: [Structure] -> Structure
+ol = lister "ol" "li"
+
+dl :: [Structure] -> Structure
+dl = lister "dl" "dd"
+

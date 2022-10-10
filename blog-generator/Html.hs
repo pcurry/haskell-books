@@ -8,6 +8,9 @@ module Html
   , html_
   , p_
   , h1_
+  , code_
+  , ul
+  , ol
   , append_
   , render
   )
