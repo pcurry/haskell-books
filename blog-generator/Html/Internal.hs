@@ -1,9 +1,28 @@
 -- Html/Internal.hs
 
+
+
 module Html.Internal where
 
 
 type Title = String
+
+data Bool
+  = True
+  | False
+
+data Person
+  = Person String Int -- Where the first is the name and
+                      -- the second is the age
+
+data Tuple a b
+  = Tuple a b
+
+
+data Either a b
+  = Left a
+  | Right b
+
 
 newtype Html = Html String
 
@@ -13,16 +32,19 @@ render html =
     Html str -> str
 
 
-newtype Structure = Structure String
-
+  
 getStructureString :: Structure -> String
 getStructureString struct =
   case struct of
     Structure str -> str
 
-append_ :: Structure -> Structure -> Structure
-append_ (Structure x) (Structure y) =
-  Structure (x <> y)
+-- append_ :: Structure -> Structure -> Structure
+-- append_ (Structure x) (Structure y) =
+--   Structure (x <> y)
+
+instance Semigroup Structure where
+  (<>) c1 c2 =
+    Structure (getStructureString c1 <> getStructureString c2)
 
 
 el :: String -> String -> String
@@ -76,4 +98,5 @@ ol = lister "ol" "li"
 
 dl :: [Structure] -> Structure
 dl = lister "dl" "dd"
+
 
